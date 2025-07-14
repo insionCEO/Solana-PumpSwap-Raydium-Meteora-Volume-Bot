@@ -1,11 +1,1 @@
-# Website
-website/public
-
-# IntelliJ
-.idea
-*.iml
-
-# Glide
-vendor
-
-.DS_Store
+*/__pycache__

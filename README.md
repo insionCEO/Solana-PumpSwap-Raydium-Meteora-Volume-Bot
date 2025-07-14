@@ -1,349 +1,94 @@
-# Vodka V2+
+<div align="center">
 
-    由于Echo V3不再支持fasthttp, 于是我将以Vodka的名义自行维护Echo V2的后续开发，如果你也在使用我的这个版本欢迎留言交流.
+## PLANT-AI [Recognition of Plant Diseases by Leaf Image Classification]
 
+### <a href="https://plant49-ai.herokuapp.com/" target="_blank">https://plant49-ai.herokuapp.com/</a>
 
-#### Fast and unfancy HTTP server framework for Go (Golang). Up to 10x faster than the rest.
+## <img src="./Assets/web.gif" alt="demo"/>
 
-## Feature Overview
+ </div>
 
-- Optimized HTTP router which smartly prioritize routes
-- Build robust and scalable RESTful APIs
-- Run with standard HTTP server or FastHTTP server
-- Group APIs
-- Extensible middleware framework
-- Define middleware at root, group or route level
-- Data binding for JSON, XML and form payload
-- Handy functions to send variety of HTTP responses
-- Centralized HTTP error handling
-- Template rendering with any template engine
-- Define your format for the logger
-- Highly customizable
+## Description
 
-## Performance
+Food security for billions of people on earth requires minimizing crop damage by timely detection of diseases.Developing methods
+for detection of plant diseases serves the dual purpose of increasing crop yield and reducing pesticide use without knowing
+about the proper disease. Along with development of better crop varieties, disease detection is thus paramount goal for achieving
+food security. The traditional method of disease detection has been to use manual examination by either farmers or experts, which
+can be time consuming and costly, proving infeasible for millions of small and medium sized farms around the world.
 
-- Environment:
-	- Go 1.7.1
-	- wrk 4.2.0
-	- Memory 16 GB
-    - Processor Intel® Xeon® CPU E3-1231 v3 @ 3.40GHz × 8
+This project is an approach to the development of plant disease recognition model, based on leaf image classification, by the
+use of deep convolutional networks. The developed model is able to recognize 38 different types of plant diseases out of of 14 different plants with the ability to distinguish plant leaves from their surroundings.
 
-    Simple Test:
-    ```go
-    package main
+## Leaf Image Classification
 
-    import (
-	    "net/http"
+## <img src="./Assets/batch.png" alt="batch of image"/>
 
-        "github.com/insionng/vodka"
-	    "github.com/insionng/vodka/engine/fasthttp"
-    )
+This process for building a model which can detect the disease assocaited with the leaf image. The key points to be followed are:
 
-    func main() {
-	    v := vodka.New()
-        v.GET("/", HelloHandler)
-	    v.Run(fasthttp.New(":1987"))
-    }
+1. Data gathering
 
-    func HelloHandler(self vodka.Context) error {
-	    return self.String(http.StatusOK, "Hello, World!")
-    }
+   The dataset taken was **"New Plant Diseases Dataset"**. It can be downloaded through the link "https://www.kaggle.com/vipoooool/new-plant-diseases-dataset". It is an Image dataset containing images of different healthy and unhealthy crop leaves.
 
-    ```
+2. Model building
 
+   - I have used pytorch for building the model.
+   - I used three models:-
+     1. The CNN model architecture consists of CNN Layer, Max Pooling, Flatten a Linear Layers.
+     2. Using Transfer learning VGG16 Architecture.
+     3. Using Transfer learning resnet34 Architecture.
 
-    ```sh
-    wrk -t8 -c400 -d20s http://localhost:1987
-    Running 20s test @ http://localhost:1987
-    8 threads and 400 connections
-    Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency     1.06ms    1.15ms  38.67ms   92.60%
-    Req/Sec    54.87k     6.99k   77.05k    75.69%
-    8747188 requests in 20.05s, 1.21GB read
-    Requests/sec: 436330.95
-    Transfer/sec:     61.59MB
-    ```
+3. Training
 
-## 快速开始
+   The model was trained by using variants of above layers mentioned in model building and by varying hyperparameters. The best model was able to achieve 98.42% of test accuracy.
 
-### 安装
+4. Testing
 
-在安装之前确认你已经安装了Go语言. Go语言安装请访问 [install instructions](http://golang.org/doc/install.html).
+   The model was tested on total 17572 images of 38 classes.<br/>
+   The model used for prediction on sample images. It can be seen below:
+   <!-- <img src="" alt="index1" height="300px"/> -->
+   <div>
+   <img src="./Assets/out1.png" alt="index2" height="300px" width="450"/>
+   <img src="./Assets/out2.png" alt="index3" height="300px"  width="450"/>
+   </div>
 
-Vodka is developed and tested using Go `1.7.x`+
+5. Various Model Architecture tried along with Learning Rate and Optimizer and various accuracy obtained with different models.
 
-```sh
-$ go get -u github.com/insionng/vodka
-```
+  <img src="./Assets/models.png" alt="models" />
 
+All the version with code can be seen in `jovian.ml` (https://jovian.ml/soumyajit4419/course-project-plant-disease-classification)
+<br/>
 
-### Hello, World!
+## Details about the model
 
-Create `server.go`
+### The model will be able to detect `38` types of `diseases` of `14 Unique plants`
 
-```go
-package main
-
-import (
-	"net/http"
-	"github.com/insionng/vodka"
-	"github.com/insionng/vodka/engine/fasthttp"
-)
-
-func main() {
-	v := vodka.New()
-	v.GET("/", func(self vodka.Context) error {
-		return self.String(http.StatusOK, "Hello, World!")
-	})
-	v.Run(fasthttp.New(":1987"))
-}
-```
-
-Start server
-
-```sh
-$ go run server.go
-```
-
-Browse to [http://localhost:1987](http://localhost:1987) and you should see
-Hello, World! on the page.
-
-### Routing
-
-```go
-v.POST("/users", saveUser)
-v.GET("/users/:id", getUser)
-v.PUT("/users/:id", updateUser)
-v.DELETE("/users/:id", deleteUser)
-```
-
-### Path Parameters
-
-```go
-func getUser(self vodka.Context) error {
-	// User ID from path `users/:id`
-	id := self.Param("id")
-}
-```
-
-### Query Parameters
-
-`/show?team=x-men&member=wolverine`
-
-```go
-func show(c vodka.Context) error {
-	// Get team and member from the query string
-	team := c.QueryParam("team")
-	member := c.QueryParam("member")
-}
-```
-
-### Form `application/x-www-form-urlencoded`
-
-`POST` `/save`
-
-name | value
-:--- | :---
-name | Joe Smith
-email | vodka@yougam.com
-
-
-```go
-func save(c vodka.Context) error {
-	// Get name and email
-	name := c.FormValue("name")
-	email := c.FormValue("email")
-}
-```
-
-### Form `multipart/form-data`
-
-`POST` `/save`
-
-name | value
-:--- | :---
-name | Joe Smith
-email | joe@yougam.com
-avatar | avatar
-
-```go
-func save(c vodka.Context) error {
-	// Get name and email
-	name := c.FormValue("name")
-	email := c.FormValue("email")
-	// Get avatar
-	avatar, err := c.FormFile("avatar")
-	if err != nil {
-		return err
-	}
-
-	// Source
-	src, err := avatar.Open()
-	if err != nil {
-		return err
-	}
-	defer src.Close()
-
-	// Destination
-	dst, err := os.Create(avatar.Filename)
-	if err != nil {
-		return err
-	}
-	defer dst.Close()
-
-	// Copy
-	if _, err = io.Copy(dst, src); err != nil {
-		return err
-	}
-
-	return c.HTML(http.StatusOK, "<b>Thank you!</b>")
-}
-```
-
-### Handling Request
-
-- Bind `JSON` or `XML` or `form` payload into Go struct based on `Content-Type` request header.
-- Render response as `JSON` or `XML` with status code.
-
-```go
-type User struct {
-	Name  string `json:"name" xml:"name" form:"name"`
-	Email string `json:"email" xml:"email" form:"email"`
-}
-
-e.POST("/users", func(c vodka.Context) error {
-	u := new(User)
-	if err := c.Bind(u); err != nil {
-		return err
-	}
-	return c.JSON(http.StatusCreated, u)
-	// or
-	// return c.XML(http.StatusCreated, u)
-})
-```
-
-### Static Content
-
-Server any file from static directory for path `/static/*`.
-
-```go
-e.Static("/static", "static")
-```
+- The detail list of plants and diseases can be seen in [List](Src)
 
-##### [Learn More](https://github.com/insionng/vodka/blob/master/docs/guide/static-files)
+## Further Work:
 
-### [Template Rendering](https://github.com/insionng/vodka/blob/master/docs/guide/templates)
+- Implementing Image Localisation to find the excat position of the leaf affected .
+- Building Recommender system for recommendation of proper presticides and control method for the disease.
+- Implementing the appropriate management strategies like fungicide applications and pesticide applications could lead to early
+  information on crop health and disease detection.This could facilitate the control of diseases and improve productivity.
 
-### Middleware
+## Usage:
 
-```go
-// Root level middleware
-e.Use(middleware.Logger())
-e.Use(middleware.Recover())
-
-// Group level middleware
-g := e.Group("/root")
-g.Use(middleware.BasicAuth(func(username, password string) bool {
-	if username == "joe" && password == "secret" {
-		return true
-	}
-	return false
-}))
-
-// Route level middleware
-track := func(next vodka.HandlerFunc) vodka.HandlerFunc {
-	return func(c vodka.Context) error {
-		println("request to /users")
-		return next(c)
-	}
-}
-e.GET("/users", func(c vodka.Context) error {
-	return c.String(http.StatusOK, "/users")
-}, track)
-```
-
-#### Built-in Middleware
-
-Middleware | Description
-:--- | :---
-[BodyLimit](https://github.com/insionng/vodka/blob/master/docs/middleware/body-limit) | Limit request body
-[Logger](https://github.com/insionng/vodka/blob/master/docs/middleware/logger) | Log HTTP requests
-[Recover](https://github.com/insionng/vodka/blob/master/docs/middleware/recover) | Recover from panics
-[Gzip](https://github.com/insionng/vodka/blob/master/docs/middleware/gzip) | Send gzip HTTP response
-[BasicAuth](https://github.com/insionng/vodka/blob/master/docs/middleware/basic-auth) | HTTP basic authentication
-[JWTAuth](https://github.com/insionng/vodka/blob/master/docs/middleware/jwt) | JWT authentication
-[Secure](https://github.com/insionng/vodka/blob/master/docs/middleware/secure) | Protection against attacks
-[CORS](https://github.com/insionng/vodka/blob/master/docs/middleware/cors) | Cross-Origin Resource Sharing
-[CSRF](https://github.com/insionng/vodka/blob/master/docs/middleware/csrf) | Cross-Site Request Forgery
-[Static](https://github.com/insionng/vodka/blob/master/docs/middleware/static) | Serve static files
-[HTTPSRedirect](https://github.com/insionng/vodka/blob/master/docs/middleware/redirect#httpsredirect-middleware) | Redirect HTTP requests to HTTPS
-[HTTPSWWWRedirect](https://github.com/insionng/vodka/blob/master/docs/middleware/redirect#httpswwwredirect-middleware) | Redirect HTTP requests to WWW HTTPS
-[WWWRedirect](https://github.com/insionng/vodka/blob/master/docs/middleware/redirect#wwwredirect-middleware) | Redirect non WWW requests to WWW
-[NonWWWRedirect](https://github.com/insionng/vodka/blob/master/docs/middleware/redirect#nonwwwredirect-middleware) | Redirect WWW requests to non WWW
-[AddTrailingSlash](https://github.com/insionng/vodka/blob/master/docs/middleware/trailing-slash#addtrailingslash-middleware) | Add trailing slash to the request URI
-[RemoveTrailingSlash](https://github.com/insionng/vodka/blob/master/docs/middleware/trailing-slash#removetrailingslash-middleware) | Remove trailing slash from the request URI
-[MethodOverride](https://github.com/insionng/vodka/blob/master/docs/middleware/method-override) | Override request method
-
-##### [Learn More](https://github.com/insionng/vodka/blob/master/docs/middleware/overview)
-
-#### Third-party Middleware
-
-Middleware | Description
-:--- | :---
-[vodkaperm](https://github.com/xyproto/vodkaperm) | Keeping track of users, login states and permissions.
-[vodkapprof](https://github.com/vodka-contrib/vodkapprof) | Adapt net/http/pprof to vodka.
-
-
-### Need help?
-
-- [QQ Group] Vodka/Vodka Web 框架群号 242851426
-- [Open an issue](https://github.com/insionng/vodka/issues/new)
-
-## Support Us
-
-- :star: the project
-- :earth_americas: spread the word
-- [Contribute](#contribute) to the project
-
-## Contribute
-
-**Use issues for everything**
-
-- Report issues
-- Discuss on chat before sending a pull request
-- Suggest new features or enhancements
-- Improve/fix documentation
-
-
-## Vodka System
-
-Community created packages for Vodka
-
-- [hello world](https://github.com/vodka-contrib/helloworld)
-
-
-## Vodka Case
-
-- [ZenPress](https://github.com/insionng/zenpress) - Cms/Blog System(just start-up)
-
-
-## Donation
-    BTC:1JHtavsBqBNGxpR4eLNwjYL9Vjbyr3Tw6T
+- `Flask` : Code for Flask Server and deployment
+- `TestImages` : Sample image for model testing
+- `Src` : All The source code for building models
+- `Models` : All the Pretrained Models of Pytorch
 
 ## License
-    MIT License
+
+This project is Licensed under `MIT`
+
+## Explanation
+
+`To understand the code :` You can find the complete explanation to the code in [Article](https://medium.com/@soumyajit4419/plant-ai-c8fc95ed90e6?source=friends_link&sk=4707825cbaefa2dcaaa92d0e3ed5de01)
 
 
-## QQ Group
+### Show your support
 
-    Vodka/Vodka Web 框架群号 242851426
+Give a ⭐ if you like this website!
 
-    Golang编程(Go/Web/Nosql)群号 245386165
-
-    Go语言编程(Golang/Web/Orm)群号 231956113
-
-    Xorm & Golang群号 280360085
-
-    Golang & Tango & Web群号 369240307
-
-    Martini&Macaron 交流群 371440803
+<a href="https://www.buymeacoffee.com/soumyajit4419" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png" alt="Buy Me A Coffee" height= "60px" width= "217px" ></a>
