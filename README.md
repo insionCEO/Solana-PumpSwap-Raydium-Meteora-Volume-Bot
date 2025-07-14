@@ -55,7 +55,6 @@ This process for building a model which can detect the disease assocaited with t
 
   <img src="./Assets/models.png" alt="models" />
 
-All the version with code can be seen in `jovian.ml` (https://jovian.ml/soumyajit4419/course-project-plant-disease-classification)
 <br/>
 
 ## Details about the model
@@ -84,11 +83,9 @@ This project is Licensed under `MIT`
 
 ## Explanation
 
-`To understand the code :` You can find the complete explanation to the code in [Article](https://medium.com/@soumyajit4419/plant-ai-c8fc95ed90e6?source=friends_link&sk=4707825cbaefa2dcaaa92d0e3ed5de01)
+`To understand the code :` You can find the complete explanation to the code in
 
 
 ### Show your support
 
 Give a ⭐ if you like this website!
-
-<a href="https://www.buymeacoffee.com/soumyajit4419" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png" alt="Buy Me A Coffee" height= "60px" width= "217px" ></a>
