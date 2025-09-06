@@ -1,91 +1,80 @@
-<div align="center">
+# 🔄 Solana PumpSwap Raydium Meteora Volume Bot
 
-## PLANT-AI [Recognition of Plant Diseases by Leaf Image Classification]
+A high-performance Solana trading Bot that interacts with Solana DEX platforms the PumpSwap and Raydium CLMM & CPMM platform for volume boost. This bot is designed to automate the distribution of SOL to multiple wallets and execute endless buy and sell swap transactions on the Pump.fun AMM swap & Raydium platform and withdraw remain fees and close token accounts simultaneously 
 
-### <a href="https://plant49-ai.herokuapp.com/" target="_blank">https://plant49-ai.herokuapp.com/</a>
+## Transaction
+- **Pumpswap:** https://solscan.io/tx/ZkEdGvHeu1tR2Agy1RvqcX9XST5YDRFbCPaqTo1kCgPbae7XuKh3qjYmLBbZC7KMHP9GvBadJYzVceBvCZhbhFk
 
-## <img src="./Assets/web.gif" alt="demo"/>
+- **Meteora DLMM:** https://explorer.jito.wtf/bundle/558eb9f86665cd3362f0dde7a847452370d0a5c100d6cf1276bc7469ee9728b0
 
- </div>
+- **Meteora Dynmic AMM:** https://explorer.jito.wtf/bundle/44b1e24a0fb2d2038582deef52a6c5834e9118835f07cc30d76453070e7cfaee
 
-## Description
-
-Food security for billions of people on earth requires minimizing crop damage by timely detection of diseases.Developing methods
-for detection of plant diseases serves the dual purpose of increasing crop yield and reducing pesticide use without knowing
-about the proper disease. Along with development of better crop varieties, disease detection is thus paramount goal for achieving
-food security. The traditional method of disease detection has been to use manual examination by either farmers or experts, which
-can be time consuming and costly, proving infeasible for millions of small and medium sized farms around the world.
-
-This project is an approach to the development of plant disease recognition model, based on leaf image classification, by the
-use of deep convolutional networks. The developed model is able to recognize 38 different types of plant diseases out of of 14 different plants with the ability to distinguish plant leaves from their surroundings.
-
-## Leaf Image Classification
-
-## <img src="./Assets/batch.png" alt="batch of image"/>
-
-This process for building a model which can detect the disease assocaited with the leaf image. The key points to be followed are:
-
-1. Data gathering
-
-   The dataset taken was **"New Plant Diseases Dataset"**. It can be downloaded through the link "https://www.kaggle.com/vipoooool/new-plant-diseases-dataset". It is an Image dataset containing images of different healthy and unhealthy crop leaves.
-
-2. Model building
-
-   - I have used pytorch for building the model.
-   - I used three models:-
-     1. The CNN model architecture consists of CNN Layer, Max Pooling, Flatten a Linear Layers.
-     2. Using Transfer learning VGG16 Architecture.
-     3. Using Transfer learning resnet34 Architecture.
-
-3. Training
-
-   The model was trained by using variants of above layers mentioned in model building and by varying hyperparameters. The best model was able to achieve 98.42% of test accuracy.
-
-4. Testing
-
-   The model was tested on total 17572 images of 38 classes.<br/>
-   The model used for prediction on sample images. It can be seen below:
-   <!-- <img src="" alt="index1" height="300px"/> -->
-   <div>
-   <img src="./Assets/out1.png" alt="index2" height="300px" width="450"/>
-   <img src="./Assets/out2.png" alt="index3" height="300px"  width="450"/>
-   </div>
-
-5. Various Model Architecture tried along with Learning Rate and Optimizer and various accuracy obtained with different models.
-
-  <img src="./Assets/models.png" alt="models" />
-
-<br/>
-
-## Details about the model
-
-### The model will be able to detect `38` types of `diseases` of `14 Unique plants`
-
-- The detail list of plants and diseases can be seen in [List](Src)
-
-## Further Work:
-
-- Implementing Image Localisation to find the excat position of the leaf affected .
-- Building Recommender system for recommendation of proper presticides and control method for the disease.
-- Implementing the appropriate management strategies like fungicide applications and pesticide applications could lead to early
-  information on crop health and disease detection.This could facilitate the control of diseases and improve productivity.
-
-## Usage:
-
-- `Flask` : Code for Flask Server and deployment
-- `TestImages` : Sample image for model testing
-- `Src` : All The source code for building models
-- `Models` : All the Pretrained Models of Pytorch
-
-## License
-
-This project is Licensed under `MIT`
-
-## Explanation
-
-`To understand the code :` You can find the complete explanation to the code in
+## 💻 Video
 
 
-### Show your support
 
-Give a ⭐ if you like this website!
+https://github.com/user-attachments/assets/66bb9934-1b4a-4ded-9aa6-f4a8beb06986
+
+
+
+## 📌 Features
+
+- ✅ Create multiple wallets and Automated SOL Distribution
+- ✅ Buy random amount of tokens on certain PumpSwap, Raydium CPMM & CLMM pool and Meteora CLMM & Dynamic AMM 
+- ✅ Steadly search old wallets & sell tokens & withdraw SOL & close ATA
+- ✅ Auto-logs transactions, volume metrics, and token stats
+- ✅ Up to date PumpSwap SDK for sell & buy & getting pool info & calculate buy, sell amount and so on.
+- ✅ Configurable Parameters: Allows customization of buy amounts, intervals, distribution settings, and more..
+
+## 🚀 Getting Started
+
+### 1. Clone the Repo
+
+```bash
+git clone https://github.com/m4rcu5o/Burn-ATA-Solana.git
+cd Burn-ATA-Solana
+```
+### 2. Clone the Repo
+Fill out .env 
+```env
+MAIN_KEYPAIR_HEX=
+TREASURY_WALLET=
+MAIN_RPC_URL=
+MAIN_WSS_URL=
+DEV_RPC_URL=
+DEV_WSS_URL=
+``` 
+### 3. Figure out initial settings
+
+- Example
+```typescript
+{
+    isPumpToken: "y",
+    basemint: new web3.PublicKey("Frno4J9Yqdf8uwQKziNyybSQz4bD73mTsmiHQWxhJwGM"),
+    minAndMaxBuy: "0.00001 0.00001",
+    minAndMaxSell: "0.00001 0.00001",
+    delay: "2 3",
+    jitoTipAmt: "0.01",
+    cycles: 3,
+    marketID: "Frno4J9Yqdf8uwQKziNyybSQz4bD73mTsmiHQWxhJwGM"
+}
+```
+### 4. Run with command
+
+Install node modules and run bot with command
+```bash
+yarn
+yarn dev
+```
+
+```package.json
+"start": "node dist/index.js",
+"dev": "ts-node-dev src/index.ts",
+"build": "tsc",
+```
+
+## 🎫 Contact
+
+[Telegram](https://t.me/idioRusty)
+
+### Please don't forget give ✨Star✨ and 🎞Fork🎞. 😊
